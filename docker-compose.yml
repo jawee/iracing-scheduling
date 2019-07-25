@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  schedulingapi:
+    build: ./backend
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    environment:
+      FLASK_DEBUG: 1
+      FLASK_ENV: development
+    #RUN ONLY ONCE TIME!
+    #command: "flask db init"
+    #command: "flask db migrate"
+    #CAN BE RAN EVERY TIME
+    #command: bash -c "flask db upgrade && flask run --host=0.0.0.0"
+    #command: bash -c "flask run --host=0.0.0.0"
+    command: bash -c "python app.py"
+  # Use postgres/example user/password credentials
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - ./postgresdata:/var/lib/postgresql/data
+  
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
