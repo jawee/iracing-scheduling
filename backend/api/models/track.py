@@ -6,10 +6,7 @@ from marshmallow import fields
 class Track(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), unique=True)
-
-
-
-
+    
 class TrackSchema(ma.ModelSchema):
     class Meta(ma.ModelSchema.Meta):
         model = Track
