@@ -6,6 +6,7 @@ from api.utils.database import db, migrate, ma
 from api.utils.responses import response_with
 import api.utils.responses as resp
 from api.routes.routes_drivers import route_path_drivers
+from api.routes.routes_cars import route_path_cars
 from flask_sqlalchemy import SQLAlchemy
 
 def create_app(config):
@@ -14,6 +15,7 @@ def create_app(config):
     app.config.from_object(config)
 
     app.register_blueprint(route_path_drivers)
+    app.register_blueprint(route_path_cars)
 
     # START GLOBAL HTTP CONFIGURATIONS
     @app.after_request
