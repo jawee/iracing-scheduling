@@ -3,9 +3,9 @@ WORKDIR /usr/src/app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-ENV FLASK_APP=app.py
-ENV FLASK_DEBUG=1
-ENV FLASK_ENV=development
+#ENV FLASK_APP=app.py
+#ENV FLASK_DEBUG=1
+#ENV FLASK_ENV=development
 #EXPOSE 5000
 #CMD ["python", "-m", "flask", "run"]
 COPY . .

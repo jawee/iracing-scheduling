@@ -2,18 +2,18 @@ import logging
 import sys
 from flask import Flask
 from flask import jsonify
-from api.utils.database import db
+from api.utils.database import db, migrate, ma
 from api.utils.responses import response_with
 import api.utils.responses as resp
 from api.routes.routes_drivers import route_path_drivers
-
+from flask_sqlalchemy import SQLAlchemy
 
 def create_app(config):
     app = Flask(__name__)
 
     app.config.from_object(config)
 
-    app.register_blueprint(route_path_drivers, url_prefix='/drivers')
+    app.register_blueprint(route_path_drivers)
 
     # START GLOBAL HTTP CONFIGURATIONS
     @app.after_request
@@ -38,11 +38,14 @@ def create_app(config):
     # END GLOBAL HTTP CONFIGURATIONS
 
     db.init_app(app)
-    with app.app_context():
+    #with app.app_context():
         # from api.models import *
-        db.create_all()
+    #    db.create_all()
 
     logging.basicConfig(stream=sys.stdout,
                         format='%(asctime)s|%(levelname)s|%(filename)s:%(lineno)s|%(message)s',
                         level=logging.DEBUG)
+
+    migrate.init_app(app, db)
+    ma.init_app(app)
     return app

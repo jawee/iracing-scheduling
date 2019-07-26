@@ -1,4 +1,4 @@
-from api.utils.database import db
+from api.utils.database import db, ma
 from marshmallow_sqlalchemy import ModelSchema
 from marshmallow import fields
 #from api.models.model_book import BookSchema
@@ -17,8 +17,8 @@ class Event(db.Model):
     # Relationships N:N
 
 
-class EventSchema(ModelSchema):
-    class Meta(ModelSchema.Meta):
+class EventSchema(ma.ModelSchema):
+    class Meta(ma.ModelSchema.Meta):
         model = Event
         sqla_session = db.session
 

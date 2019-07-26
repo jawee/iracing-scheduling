@@ -1,4 +1,4 @@
-from api.utils.database import db
+from api.utils.database import db, ma
 from marshmallow_sqlalchemy import ModelSchema
 from marshmallow import fields
 #from api.models.model_book import BookSchema
@@ -10,11 +10,11 @@ class Track(db.Model):
 
 
 
-class TrackSchema(ModelSchema):
-    class Meta(ModelSchema.Meta):
+class TrackSchema(ma.ModelSchema):
+    class Meta(ma.ModelSchema.Meta):
         model = Track
         sqla_session = db.session
 
-    id = fields.Number(dump_only=True)
-    name = fields.String(required=True)
+    id = fields.Number()
+    name = fields.String()
     

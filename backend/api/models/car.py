@@ -1,5 +1,4 @@
-from api.utils.database import db
-from marshmallow_sqlalchemy import ModelSchema
+from api.utils.database import db, ma
 from marshmallow import fields
 #from api.models.model_book import BookSchema
 
