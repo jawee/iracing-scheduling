@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask import request
 from api.utils.responses import response_with
 from api.utils import responses as resp
@@ -15,7 +15,6 @@ def get_drivers():
     drivers, error = driver_schema.dump(fetched)
     return response_with(resp.SUCCESS_200, value={"drivers": drivers})
 
-    
 
 # Get Driver by id
 @route_path_drivers.route('/drivers/<int:driver_id>', methods=['GET'])

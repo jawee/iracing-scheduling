@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask import request
 from api.utils.responses import response_with
 from api.utils import responses as resp
@@ -15,7 +15,6 @@ def get_cars():
     cars, error = car_schema.dump(fetched)
     return response_with(resp.SUCCESS_200, value={"cars": cars})
 
-    
 
 # Get Car by id
 @route_path_cars.route('/cars/<int:car_id>', methods=['GET'])
@@ -43,7 +42,7 @@ def update_car(car_id):
     try:
         data = request.get_json()
         car_schema = CarSchema()
-        car, error = car_schema.load(data, instance=car.query.get(car_id), partial=True)
+        car, error = car_schema.load(data, instance=Car.query.get(car_id), partial=True)
         result = car_schema.dump(car.update()).data
         if error:
             return response_with(resp.INVALID_INPUT_422)
@@ -54,7 +53,7 @@ def update_car(car_id):
 #Delete car
 @route_path_cars.route('/cars/<int:car_id>', methods=['DELETE'])
 def delete_car(car_id):
-    fetched = car.query.filter_by(id=car_id).first()
+    fetched = Car.query.filter_by(id=car_id).first()
     car_schema = CarSchema()
     result = car_schema.dump(fetched.delete()).data
     return response_with(resp.SUCCESS_200, value={"car": result})
