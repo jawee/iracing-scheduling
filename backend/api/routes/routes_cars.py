@@ -3,6 +3,7 @@ from flask import request
 from api.utils.responses import response_with
 from api.utils import responses as resp
 from api.models.car import Car, CarSchema
+from api.business_logic.car_manager import CarManager
 
 route_path_cars = Blueprint("route_path_cars", __name__)
 
@@ -10,9 +11,8 @@ route_path_cars = Blueprint("route_path_cars", __name__)
 # Get Cars
 @route_path_cars.route('/cars', methods=['GET'])
 def get_cars():
-    fetched = Car.query.all()
-    car_schema = CarSchema(many=True)
-    cars, error = car_schema.dump(fetched)
+    car_manager = CarManager()
+    cars = car_manager.get_cars()
     return response_with(resp.SUCCESS_200, value={"cars": cars})
 
 
@@ -28,10 +28,8 @@ def get_car(car_id):
 @route_path_cars.route('/cars', methods=['POST'])
 def create_car():
     try:
-        data = request.get_json()
-        car_schema = CarSchema()
-        car, error = car_schema.load(data)
-        result = car_schema.dump(car.create()).data
+        car_manager = CarManager()
+        result = car_manager.create_car(request)
         return response_with(resp.SUCCESS_200, value={"car": result})
     except Exception:
         return response_with(resp.INVALID_INPUT_422)
